@@ -24,7 +24,7 @@ if __name__ == '__main__':
     # plot
     fig, axs = plt.subplots(1, 2)
     axs[0].plot(x, y, color=cmap(0))
-    axs[0].scatter(levels, [0] * len(levels), color=cmap(1), marker="*", label="Quantization levels")
+    axs[0].scatter(levels, [0] * len(levels), color=cmap(1), marker=".", label="Quantization levels")
     axs[0].scatter(b, [0] * len(b), color=cmap(2), marker='x', label="Boundaries")
 
     # axs[0].hlines(0, 0, max_range, colors="black")
