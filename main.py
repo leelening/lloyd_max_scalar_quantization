@@ -14,7 +14,7 @@ if __name__ == '__main__':
     y = [pdf(l, i) for i in x]
 
     # quantization
-    levels, b, MSE = quantize(l, k, thres, x, timeout)
+    levels, b, MSE_8 = quantize(l, k, thres, x, timeout)
 
     print(str(len(b)) + " Boundaries:", b)
     print(str(len(levels)) + " Quantization levels:", levels)
@@ -39,12 +39,34 @@ if __name__ == '__main__':
     axs[0].set_ylabel("PDF")
     axs[0].set_xlabel("t")
 
-    axs[0].legend()
+    axs[0].legend(title="k=" + str(k))
 
-    axs[1].plot(range(len(MSE)), MSE)
+    # quantization
+    k = 5
+    levels, b, MSE_5 = quantize(l, k, thres, x, timeout)
+
+    # quantization
+    k = 10
+    levels, b, MSE_10 = quantize(l, k, thres, x, timeout)
+
+    max_len = max(len(MSE_5), len(MSE_8), len(MSE_10))
+
+    if len(MSE_5) < max_len:
+        MSE_5.extend([MSE_5[-1]] * (max_len - len(MSE_5)))
+
+    if len(MSE_8) < max_len:
+        MSE_8.extend([MSE_8[-1]] * (max_len - len(MSE_8)))
+
+    if len(MSE_10) < max_len:
+        MSE_10.extend([MSE_10[-1]] * (max_len - len(MSE_10)))
+
+    axs[1].plot(range(len(MSE_5)), MSE_5, label="k=5")
+    axs[1].plot(range(len(MSE_8)), MSE_8, label="k=8")
+    axs[1].plot(range(len(MSE_10)), MSE_10, label="k=10")
     # axs[1].plot(range(len(MSE)), MSE, marker='x')
     axs[1].set_xlabel("Iterations")
     axs[1].set_ylabel("MSE")
+    axs[1].legend()
 
     plt.tight_layout()
     plt.show()
