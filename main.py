@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from lloyd_max_scalar_quantization import *
+import matplotlib.pylab as pylab
 
 cmap = plt.get_cmap("tab10")
 
@@ -21,25 +22,35 @@ if __name__ == '__main__':
 
     bar_y = [pdf(l, i) for i in levels]
 
+    params = {'legend.title_fontsize': 'xx-large',
+              'figure.figsize': (6, 9),
+              'legend.fontsize': 'x-large',
+              'axes.labelsize': 'x-large',
+              # 'axes.titlesize': 'xx-large',
+              'xtick.labelsize': 'x-large',
+              'ytick.labelsize': 'x-large',
+              'font.family': 'serif',
+              'font.serif': 'Times New Roman'}
+    pylab.rcParams.update(params)
     # plot
-    fig, axs = plt.subplots(1, 2)
-    axs[0].plot(x, y, color=cmap(0))
-    axs[0].scatter(levels, [0] * len(levels), color=cmap(1), marker=".", label="Quantization levels")
-    axs[0].scatter(b, [0] * len(b), color=cmap(2), marker='x', label="Boundaries")
+    plt.figure(1)
+    plt.plot(x, y, color=cmap(0))
+    plt.scatter(levels, [0] * len(levels), color=cmap(1), marker=".", label="Quantization levels")
+    plt.scatter(b, [0] * len(b), color=cmap(2), marker='x', label="Boundaries")
 
-    # axs[0].hlines(0, 0, max_range, colors="black")
+    # fig.hlines(0, 0, max_range, colors="black")
     for i in range(len(levels)):
-        axs[0].vlines(b[i], 0, bar_y[i], colors=cmap(2))
-        axs[0].vlines(b[i + 1], 0, bar_y[i], colors=cmap(2))
+        plt.vlines(b[i], 0, bar_y[i], colors=cmap(2))
+        plt.vlines(b[i + 1], 0, bar_y[i], colors=cmap(2))
 
-        axs[0].vlines(levels[i], 0, bar_y[i], colors=cmap(1), linestyles="dashed")
-        axs[0].hlines(bar_y[i], b[i], b[i + 1], colors=cmap(2))
+        plt.vlines(levels[i], 0, bar_y[i], colors=cmap(1), linestyles="dashed")
+        plt.hlines(bar_y[i], b[i], b[i + 1], colors=cmap(2))
 
-    axs[0].set_xlim(0, max_range)
-    axs[0].set_ylabel("PDF")
-    axs[0].set_xlabel("t")
+    plt.xlim(0, max_range)
+    plt.ylabel("PDF")
+    plt.xlabel("t")
 
-    axs[0].legend(title="k=" + str(k))
+    plt.legend(title="k=" + str(k))
 
     # quantization
     k = 5
@@ -60,13 +71,12 @@ if __name__ == '__main__':
     if len(MSE_10) < max_len:
         MSE_10.extend([MSE_10[-1]] * (max_len - len(MSE_10)))
 
-    axs[1].plot(range(len(MSE_5)), MSE_5, label="k=5")
-    axs[1].plot(range(len(MSE_8)), MSE_8, label="k=8")
-    axs[1].plot(range(len(MSE_10)), MSE_10, label="k=10")
-    # axs[1].plot(range(len(MSE)), MSE, marker='x')
-    axs[1].set_xlabel("Iterations")
-    axs[1].set_ylabel("MSE")
-    axs[1].legend()
+    plt.figure(2)
+    plt.plot(range(len(MSE_5)), MSE_5, label="k=5")
+    plt.plot(range(len(MSE_8)), MSE_8, label="k=8")
+    plt.plot(range(len(MSE_10)), MSE_10, label="k=10")
+    plt.xlabel("Iterations")
+    plt.ylabel("MSE")
+    plt.legend()
 
-    plt.tight_layout()
     plt.show()
