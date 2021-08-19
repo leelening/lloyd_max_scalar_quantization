@@ -23,9 +23,9 @@ if __name__ == '__main__':
     bar_y = [pdf(l, i) for i in levels]
 
     params = {'legend.title_fontsize': 'xx-large',
-              'figure.figsize': (6, 7),
+              'figure.figsize': (6, 6),
               'legend.fontsize': 'x-large',
-              'axes.labelsize': 'x-large',
+              'axes.labelsize': 'xx-large',
               # 'axes.titlesize': 'xx-large',
               'xtick.labelsize': 'x-large',
               'ytick.labelsize': 'x-large',
